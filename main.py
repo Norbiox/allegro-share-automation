@@ -115,7 +115,7 @@ def open_offer(url: str) -> None:
 
 
 def wait_for_element(
-    content_desc: str = None, text: str = None, timeout: int = 15
+    content_desc: str | None = None, text: str | None = None, timeout: int = 15
 ) -> ET.Element | None:
     deadline = time.time() + timeout
     while time.time() < deadline:

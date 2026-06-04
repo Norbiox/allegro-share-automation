@@ -1,6 +1,7 @@
 import threading
 
 from flask import Flask, jsonify, request
+from waitress import serve
 
 from main import generate_share_link
 
@@ -15,7 +16,9 @@ def health():
 
 @app.post("/share")
 def share():
-    data = request.get_json(force=True)
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        return jsonify({"error": "invalid or missing JSON body"}), 400
     url = data.get("url", "").strip()
     if not url:
         return jsonify({"error": "missing url"}), 400
@@ -28,3 +31,7 @@ def share():
         return jsonify({"error": str(e)}), 500
     finally:
         _adb_lock.release()
+
+
+if __name__ == "__main__":
+    serve(app, host="0.0.0.0", port=5000)

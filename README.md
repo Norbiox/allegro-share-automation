@@ -19,7 +19,7 @@ uv sync
 **HTTP service**
 
 ```bash
-flask --app app run --host 0.0.0.0 --port 5000
+python app.py
 ```
 
 ```bash

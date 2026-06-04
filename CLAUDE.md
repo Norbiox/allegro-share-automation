@@ -28,7 +28,7 @@ uv run python main.py <url>
 
 ```bash
 # HTTP service
-flask --app app run --host 0.0.0.0 --port 5000
+python app.py
 
 # CLI
 python main.py <allegro_offer_url>

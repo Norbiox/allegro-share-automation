@@ -46,3 +46,7 @@ HTTP 503 = ADB busy (another request in progress). Caller should retry.
 ## ADB setup
 
 Android device must be connected and authorized. Verify with `adb devices`.
+
+## Tested on
+
+Huawei Mate 10 Pro, Android 10. No other devices tested — UI element IDs, bounds, and timing may differ on other hardware/OS versions.

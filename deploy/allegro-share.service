@@ -1,0 +1,15 @@
+[Unit]
+Description=Allegro Share Automation HTTP Service
+After=network.target
+
+[Service]
+Type=simple
+User=allegro
+WorkingDirectory=/opt/allegro-share-automation
+ExecStart=/opt/allegro-share-automation/.venv/bin/python app.py
+Restart=on-failure
+RestartSec=10
+Environment=HOME=/home/allegro
+
+[Install]
+WantedBy=multi-user.target

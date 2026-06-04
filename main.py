@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import time
 import xml.etree.ElementTree as ET
@@ -54,32 +55,6 @@ def tap_bounds(bounds_str: str) -> None:
     adb(["input", "tap", str(x), str(y)])
 
 
-# def get_clipboard() -> str:
-#     # Dismiss the bottom sheet first
-#     adb(["input", "keyevent", "KEYCODE_BACK"])
-#     time.sleep(1)
-
-#     # Tap search bar
-#     root = dump_ui()
-#     search = find_node(root, content_desc="Szukaj")
-#     if search is None:
-#         raise RuntimeError("Cannot find Allegro search bar")
-#     tap_node(search)
-#     time.sleep(1)
-
-#     # Paste clipboard into search box
-#     adb(["input", "keyevent", "KEYCODE_CTRL_V"])
-#     time.sleep(0.5)
-
-#     root = dump_ui()
-#     for node in root.iter("node"):
-#         if node.attrib.get("resource-id") == "pl.allegro:id/searchBox":
-#             text = node.attrib.get("text", "")
-#             if "allegro.pl" in text:
-#                 return text.rstrip("#")
-
-
-#     return ""
 def get_clipboard() -> str:
     adb(["input", "keyevent", "KEYCODE_BACK"])
     time.sleep(1.5)
@@ -188,13 +163,14 @@ def generate_share_link(offer_url: str) -> str:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python allegro_share.py <allegro_offer_url>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Generate Allegro referral share link via ADB"
+    )
+    parser.add_argument("url", help="Allegro offer URL")
+    args = parser.parse_args()
 
-    url = sys.argv[1]
     try:
-        link = generate_share_link(url)
+        link = generate_share_link(args.url)
         print(f"\nShare link: {link}")
     except RuntimeError as e:
         print(f"Error: {e}", file=sys.stderr)
